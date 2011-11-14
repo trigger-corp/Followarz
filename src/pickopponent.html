@@ -241,6 +241,7 @@
 							success: function (opponents) {
 								forge.logging.log("Got " + opponents.length + " opponents");
 								var $opponents = $('#opponents');
+								var chosenOpponent;
 
 								opponents.forEach(function(opponent) {
 									var $op = $(Mustache.to_html(opponent_template, {
@@ -248,7 +249,11 @@
 										name: opponent.screen_name
 									}));
 
-									$op.one('click', function () {
+									$op.click(function () {
+										if (chosenOpponent) {
+											return;
+										}
+										chosenOpponent = opponent;
 										$(this).children('.name').text('Loading opposing team...');
 										$.ajax({
 											url: 'http://followarz.com/team.php?for=' + opponent.screen_name,
