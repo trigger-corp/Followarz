@@ -243,7 +243,7 @@
 								var $opponents = $('#opponents');
 								var chosenOpponent;
 
-								opponents.forEach(function(opponent) {
+								opponents.forEach(function (opponent) {
 									var $op = $(Mustache.to_html(opponent_template, {
 										url: opponent.profile_image_url_https,
 										name: opponent.screen_name
@@ -254,14 +254,16 @@
 											return;
 										}
 										chosenOpponent = opponent;
+
 										$(this).children('.name').text('Loading opposing team...');
+
 										$.ajax({
 											url: 'http://followarz.com/team.php?for=' + opponent.screen_name,
 											dataType: "json",
 
 											success: function (opposing_team) {
-												forge.logging.log("got opponent team");
-												forge.logging.log("team size " + opposing_team.length);
+												forge.logging.log("Got opponent team.");
+												forge.logging.log("Team size " + opposing_team.length);
 												showBattlePage(own_team, opposing_team, opponent.screen_name);
 											},
 
@@ -270,6 +272,7 @@
 												forge.logging.log(e);
 											}
 										});
+
 									});
 
 									$opponents.append($op);
