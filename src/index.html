@@ -1,0 +1,80 @@
+<html>
+	<head>
+		<title>FOLLOWARS</title>
+		<script type="text/javascript" src="jquery-1.7.js"></script>
+		<script type="text/javascript" src="mustache.js"></script>
+		<script type="text/javascript" src="jQueryMustache.js"></script>
+		<script type="text/javascript" src="followarz.js"></script>
+		<link rel="stylesheet" href="followarz.css">
+
+		<script id="loggedout_template" type="x-templ-mustache">
+			<h1>Welcome to Followarz</h1>
+
+			<p><span onclick="forge.tabs.open('http://followarz.com/login.php');" class="button">Log in</span></p>
+		</script>
+
+		<script id="loggedin_template" type="x-templ-mustache">
+			<h1>Welcome to Followarz</h1>
+
+			<div><a class="button" href="{{ pickteam_url }}">Pick team</a></div>
+			<div><a id="pickopponent" class="button" href="{{ pickopponent_url }}">Choose opponent</a></div>
+		</script>
+
+		<script type="text/javascript">
+			$(function () {
+				forge.logging.log("Page loaded.");
+
+				forge.tools.getURL('/', function (base_url) {
+					forge.logging.log("Got base url for application.");
+					forge.logging.log("Checking whether logged in already...")
+
+					Followarz.showLoadingPage();
+
+					$.ajax({
+						url: "http://followarz.com/hello.php",
+						dataType: "json",
+
+						success: function (data) {
+							var pickopponent_url, page;
+
+							forge.logging.log("Got response from /hello.php");
+							forge.logging.log(data);
+
+							if (data.status == "loggedin") {
+								forge.logging.log("Logged in.");
+
+								if (data.team) {
+									pickopponent_url = base_url + 'pickopponent.html';
+								} else {
+									pickopponent_url = '';
+								}
+
+								page = $('#loggedin_template').mustache({
+									pickteam_url: base_url + 'pickteam.html',
+									pickopponent_url: pickopponent_url
+								});
+
+								$('#pickopponent').live('click', function () {
+									$(this).text("Loading...");
+								});
+							} else {
+								forge.logging.log("Not logged in.");
+								page = $("#loggedout_template").html();
+							}
+
+							$(document.body).html(page);
+						},
+
+						error: function (e) {
+							forge.logging.log("Call to /hello.php failed");
+							forge.logging.log(e);
+						}
+					});
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<p>Loading...</p>
+	</body>
+</html>

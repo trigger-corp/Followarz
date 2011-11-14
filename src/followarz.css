@@ -1,0 +1,116 @@
+* {
+    font-family: Verdana;
+}
+
+body {
+	text-align: center;
+	background-color: white;
+	/*color: white;*/
+	/*background-color: #49708A;*/
+}
+
+#loading_layout {
+	height: 100%;
+	text-align: center;
+}
+
+#team {
+	background-color: #dfd;
+	border: 3px dashed #373;
+	border-radius: 10px;
+	height: 50px;
+	padding: 10px;
+	margin-bottom: 10px;
+	font-size: 1.1em;
+}
+
+#team img {
+	margin: 0 2px;
+	width: 50px;
+	height: 50px;
+	display: none;
+}
+
+.button {
+	padding: 10px;
+	font-size: 1.2em;
+	border: 2px solid #696;
+	border-radius: 10px;
+	background-color: #AEA;
+	display: inline-block;
+	margin: 10px auto;
+}
+
+#spacer {
+	height: 370px;
+}
+
+#own_team, #opposing_team {
+	margin: 0 auto;
+}
+
+#card_spacer {
+	height: 120px;
+	clear: both;
+}
+
+#message {
+	position: absolute;
+	top: 170px;
+	font-weight: bold;
+	padding: 10px;
+	border: 2px solid black;
+	margin: 0 auto;
+	left: 10%;
+	right: 10%;
+	height: 50px;
+}
+
+.half {
+	width: 50%;
+	float: left;
+}
+
+.card {
+    text-align: center;
+}
+
+.opponent img {
+	width: 50px;
+	height: 50px;
+}
+
+#save {
+	margin: 20px auto;
+	width: 150px;
+	font-size: 1.2em;
+	background-color: #dfd;
+	border: 3px solid #373;
+	padding: 20px;
+	display: none;
+	border-radius: 10px;
+}
+
+.card .name {
+    font-size: 1.15em;
+	font-weight: bold;
+	padding: 10px;
+}
+
+table {
+	width: 150px;
+	padding: 10px;
+	margin: 0 auto;
+}
+
+
+td {
+	font-weight: bold;
+}
+
+td + td {
+	font-weight: normal;
+	width: 30px;
+	text-align: right;
+}
+

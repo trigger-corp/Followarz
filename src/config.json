@@ -1,0 +1,21 @@
+{
+	"uuid": "f721b5920c6e11e1b21712313d1adcbe",
+	"platform_version": "default",
+	"name": "Followarz",
+	"author": "tim@webmynd.com",
+	"version": "0.1",
+	"description": "Followarz",
+	"permissions": [],
+	"trigger": "document_end",
+	"background_files": [],
+	"icons": {
+      "48": "Logo48.png",
+      "36": "Logo36.png",
+	  "72": "Logo72.png"
+    },
+	"activations": [
+	],
+	"logging": {
+			"level": "INFO"
+	}
+}
