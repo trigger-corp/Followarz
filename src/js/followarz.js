@@ -27,16 +27,15 @@ Followarz.Router = Backbone.Router.extend({
 	},
 
 	hello: function () {
-		forge.logging.log("Checking whether logged in already...");
+		forge.logging.log('Checking whether logged in already...');
+
 		new Followarz.Views.Loading();
-		
+
 		$.ajax({
 			url: 'http://followarz.com/hello.php',
 			dataType: 'json',
 
 			success: function (data) {
-				var pickopponent_url, page;
-
 				forge.logging.log('Got response from /hello.php');
 				forge.logging.log(data);
 
@@ -46,14 +45,14 @@ Followarz.Router = Backbone.Router.extend({
 			},
 
 			error: function (e) {
-				forge.logging.log("Call to /hello.php failed");
+				forge.logging.log('Call to /hello.php failed');
 				forge.logging.log(e);
 			}
 		});
 	},
 
 	loggedOut: function () {
-		
+
 	},
 
 	loggedIn: function () {
@@ -91,19 +90,20 @@ Followarz.Views.Welcome = Backbone.View.extend({
 	},
 
 	pickTeam: function () {
-		forge.logging.log("Pick team button clicked.");
+		forge.logging.log('Pick team button clicked.');
 		new Followarz.Views.Loading();
-		
+
 		return false;
 	},
 
 	initialize: function () {
 		forge.logging.log('Creating welcome view.');
+
 		this.render();
 	},
 
 	render: function () {
-		forge.logging.log("Rendering welcome view.");
+		forge.logging.log('Rendering welcome view.');
 
 		if (this.model.get('status') == 'loggedin') {
 			forge.logging.log('Logged in.');
@@ -129,9 +129,10 @@ Followarz.Views.Loading = Backbone.View.extend({
 	initialize: function () {
 		this.render();
 	},
-	
+
 	render: function () {
-		forge.logging.log("Rendering loading view.");
+		forge.logging.log('Rendering loading view.');
+
 		$(this.el).html(Followarz.Templates.loading);
 		return this;
 	}
