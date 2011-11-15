@@ -1,15 +1,17 @@
 var Followarz = {
+	Models: {},
 	Views: {},
-	Router: {},
 	Templates: {},
 
 	init: function () {
-		new Followarz.Router();
-		Backbone.history.start();
-
+		forge.logging.log("Followarz init");
 		Followarz.Templates.loggedOut = $('#template_loggedout').html();
 		Followarz.Templates.haveTeam = $('#template_haveteam').html();
 		Followarz.Templates.noTeam = $('#template_noteam').html();
+		Followarz.Templates.loading = $('#template_loading').html();
+
+		new Followarz.Router();
+		Backbone.history.start();
 	}
 };
 
@@ -26,6 +28,8 @@ Followarz.Router = Backbone.Router.extend({
 
 	hello: function () {
 		forge.logging.log("Checking whether logged in already...");
+		new Followarz.Views.Loading();
+		
 		$.ajax({
 			url: 'http://followarz.com/hello.php',
 			dataType: 'json',
@@ -36,20 +40,9 @@ Followarz.Router = Backbone.Router.extend({
 				forge.logging.log('Got response from /hello.php');
 				forge.logging.log(data);
 
-				if (data.status == 'loggedin') {
-					forge.logging.log('Logged in.');
-
-					if (data.team) {
-						page = Followarz.Templates.haveTeam;
-					} else {
-						page = Followarz.Templates.noTeam;
-					}
-				} else {
-					forge.logging.log("Not logged in.");
-					page = Followarz.Templates.loggedOut;
-				}
-				
-				$(document.body).html(page);
+				new Followarz.Views.Welcome({
+					model: new Followarz.Models.UserInfo(data)
+				});
 			},
 
 			error: function (e) {
@@ -84,13 +77,62 @@ Followarz.Router = Backbone.Router.extend({
 
 	login: function () {
 		forge.tabs.open('http://followarz.com/login.php');
-	},
-
-	pickteam: function () {
 	}
 });
 
-Followarz.showLoadingPage = function () {
-	var loadingPage = '<table id="loading_layout"><tr><td><img src="img/Logo72.png"><p>Loading...</p></td></tr></table>';
-	$(document.body).html(loadingPage);
-};
+
+Followarz.Models.UserInfo = Backbone.Model.extend();
+
+Followarz.Views.Welcome = Backbone.View.extend({
+	el: 'body',
+
+	events: {
+		"touchend .pick_team": "pickTeam"
+	},
+
+	pickTeam: function () {
+		forge.logging.log("Pick team button clicked.");
+		new Followarz.Views.Loading();
+		
+		return false;
+	},
+
+	initialize: function () {
+		forge.logging.log('Creating welcome view.');
+		this.render();
+	},
+
+	render: function () {
+		forge.logging.log("Rendering welcome view.");
+
+		if (this.model.get('status') == 'loggedin') {
+			forge.logging.log('Logged in.');
+			if (this.model.get('team')) {
+				page = Followarz.Templates.haveTeam;
+			} else {
+				page = Followarz.Templates.noTeam;
+			}
+		} else {
+			forge.logging.log("Not logged in.");
+			page = Followarz.Templates.loggedOut;
+		}
+
+		$(this.el).html(page);
+
+		return this;
+	}
+});
+
+Followarz.Views.Loading = Backbone.View.extend({
+	el: 'body',
+
+	initialize: function () {
+		this.render();
+	},
+	
+	render: function () {
+		forge.logging.log("Rendering loading view.");
+		$(this.el).html(Followarz.Templates.loading);
+		return this;
+	}
+});
