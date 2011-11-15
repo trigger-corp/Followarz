@@ -18,14 +18,26 @@
 		<script id="template_haveteam" type="x-templ-mustache">
 			<h1>Welcome to Followarz</h1>
 
-			<div><a class="button" href="{{ pickteam_url }}">Pick team</a></div>
-			<div><a id="pickopponent" class="button" href="{{ pickopponent_url }}">Choose opponent</a></div>
+			<div><span class="button pick_team" href="{{ pickteam_url }}">Pick team</span></div>
+			<div><span id="pickopponent" class="button" href="{{ pickopponent_url }}">Choose opponent</span></div>
 		</script>
 
 		<script id="template_noteam" type="x-templ-mustache">
 			<h1>Welcome to Followarz</h1>
 
 			<div><a class="button" href="{{ pickteam_url }}">Pick team</a></div>
+		</script>
+
+		<script id="template_loading" type="x-templ-mustache">
+			<table id="loading_layout">
+				<tbody>
+					<tr>
+						<td>
+							<img src="img/Logo72.png"><p>Loading...</p>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 		</script>
 
 		<script type="text/javascript">
@@ -84,6 +96,5 @@
 		</script>
 	</head>
 	<body>
-		<p>Loading...</p>
 	</body>
 </html>
