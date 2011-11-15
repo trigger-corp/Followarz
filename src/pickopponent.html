@@ -91,7 +91,7 @@
 
 	<script type="text/javascript">
 		var baseUrl;
-		
+
 		function generateStatsForCard(card) {
 			Math.seedrandom(card.screen_name);
 			return {
@@ -193,7 +193,7 @@
 						if (wins >= 3) {
 							$('#message').html('You won this battle.<br/>Tap to tell your opponent!');
 							$('#message').one('click', function () {
-								forge.tabs.open("https://twitter.com/share" + 
+								forge.tabs.open("https://twitter.com/share" +
 										"?url=" + encodeURIComponent("http://followarz.com/") +
 										"&text=" + encodeURIComponent("@" + opponent_name + " I just beat you at Followarz! Check it out.") +
 										"&related=" + encodeURIComponent(opponent_name));
@@ -222,72 +222,122 @@
 			});
 		}
 
+		var ownTeam;
+		var opposingTeam;
+		var chosenOpponent;
+		var opponents;
+
+		function canStartBattle() {
+			return ownTeam != undefined && opposingTeam != undefined;
+		}
+
+		function requestOwnTeam(success) {
+			$.ajax({
+				url: "http://followarz.com/team.php",
+				dataType: "json",
+				success: function (team) {
+					ownTeam = team;
+
+					forge.logging.log("Got own team");
+					forge.logging.log("Team size is " + team.length);
+
+					success && success();
+				},
+
+				error: function () {
+					forge.logging.log("Failed to get own team");
+					forge.logging.log(e);
+				}
+			});
+		}
+
+		function requestOpposingTeam(opponent, success) {
+			$.ajax({
+				url: "http://followarz.com/team.php?for=" + encodeURIComponent(opponent.screen_name),
+				dataType: "json",
+				success: function (team) {
+					opposingTeam = team;
+
+					forge.logging.log("Got opposing team");
+					forge.logging.log("Team size is " + team.length);
+
+					success && success();
+				},
+
+				error: function (e) {
+					forge.logging.log("Failed to get team for opposition");
+					forge.logging.log(e);
+				}
+			});
+		}
+
+		function requestOpponents(success) {
+			var opponent_template = "<li class=\"opponent\">\n\t<img src=\"{{ url }}\"> <span class=\"name\">{{ name }}</span>\n</li>";
+			$.ajax({
+				url: "http://followarz.com/following.php",
+				dataType: "json",
+
+				success: function (following) {
+					opponents = following;
+					forge.logging.log("Got " + opponents.length + " opponents");
+
+					success && success();
+				},
+
+				error: function (e) {
+					forge.logging.log("Failed to get opponents.");
+					forge.logging.log(e);
+				}
+			});
+		}
+
+		function showChooseOpponentPage() {
+			var $opponents = $('#opponents').clone();
+
+			opponents.forEach(function (opponent) {
+				var $op = $(Mustache.to_html(opponent_template, {
+					url: opponent.profile_image_url_https,
+					name: opponent.screen_name
+				}));
+
+				$op.click(function () {
+					if (chosenOpponent) {
+						return;
+					}
+					chosenOpponent = opponent;
+
+					$(this).children('.name').text('Loading opposing team...');
+
+					requestOpposingTeam(chosenOpponent, function() {
+						if (canStartBattle()) {
+							showBattlePage(ownTeam, opposingTeam, chosenOpponent.screen_name);
+						}
+					});
+				});
+
+				$opponents.append($op);
+			});
+
+			$('#pick_message').text('Choose an opponent.');
+			$('#opponents').replaceWith($opponents);
+			new iScroll('wrapper');
+		}
+
 		$(function () {
-			forge.tools.getURL('/', function(u) {
-				baseUrl = u;
-				
-				$.ajax({
-					url: "http://followarz.com/team.php",
-					dataType: "json",
-					success: function (own_team) {
-						forge.logging.log("Got own team");
-						forge.logging.log("Team size is " + own_team.length);
-						var opponent_template = "<li class=\"opponent\">\n\t<img src=\"{{ url }}\"> <span class=\"name\">{{ name }}</span>\n</li>";
-						
-						$.ajax({
-							url: "http://followarz.com/following.php",
-							dataType: "json",
+			forge.tools.getURL('/', function (url) {
+				baseUrl = url;
+				var opponent_template = "<li class=\"opponent\">\n\t<img src=\"{{ url }}\"> <span class=\"name\">{{ name }}</span>\n</li>";
 
-							success: function (opponents) {
-								forge.logging.log("Got " + opponents.length + " opponents");
-								var $opponents = $('#opponents');
-								var chosenOpponent;
-
-								opponents.forEach(function (opponent) {
-									var $op = $(Mustache.to_html(opponent_template, {
-										url: opponent.profile_image_url_https,
-										name: opponent.screen_name
-									}));
-
-									$op.click(function () {
-										if (chosenOpponent) {
-											return;
-										}
-										chosenOpponent = opponent;
-
-										$(this).children('.name').text('Loading opposing team...');
-
-										$.ajax({
-											url: 'http://followarz.com/team.php?for=' + opponent.screen_name,
-											dataType: "json",
-
-											success: function (opposing_team) {
-												forge.logging.log("Got opponent team.");
-												forge.logging.log("Team size " + opposing_team.length);
-												showBattlePage(own_team, opposing_team, opponent.screen_name);
-											},
-
-											error: function (e) {
-												forge.logging.log("didn't get team for opposition");
-												forge.logging.log(e);
-											}
-										});
-
-									});
-
-									$opponents.append($op);
-								});
-								myScroll = new iScroll('wrapper');
-							},
-
-							error: function (e) {
-								forge.logging.log("Failed to get opponents.");
-								forge.logging.log(e);
-							}
-						});
+				requestOwnTeam(function () {
+					if (canStartBattle()) {
+						showBattlePage(ownTeam, opposingtTeam, chosenOpponent.screen_name);
 					}
 				});
-			})
+
+				requestOpponents(function() {
+					showChooseOpponentPage();
+				});
+			});
 		});
 	</script>
 
@@ -339,7 +389,7 @@
 	</style>
 </head>
 <body>
-	<p>Choose opponent.</p>
+	<p id="pick_message">Loading opponents...</p>
 	<div id="wrapper">
 		<div id="scroller">
 			<ul id="opponents"></ul>
