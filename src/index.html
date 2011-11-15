@@ -12,20 +12,20 @@
 		<script id="template_loggedout" type="x-templ-mustache">
 			<h1>Welcome to Followarz</h1>
 
-			<p><span onclick="forge.tabs.open('http://followarz.com/login.php');" class="button">Log in</span></p>
+			<p><span class="button login">Log in</span></p>
 		</script>
 
 		<script id="template_haveteam" type="x-templ-mustache">
 			<h1>Welcome to Followarz</h1>
 
-			<div><span class="button pick_team" href="{{ pickteam_url }}">Pick team</span></div>
-			<div><span id="pickopponent" class="button" href="{{ pickopponent_url }}">Choose opponent</span></div>
+			<div><span class="button pick_team">Pick team</span></div>
+			<div><span class="button pick_opponent">Choose opponent</span></div>
 		</script>
 
 		<script id="template_noteam" type="x-templ-mustache">
 			<h1>Welcome to Followarz</h1>
 
-			<div><a class="button" href="{{ pickteam_url }}">Pick team</a></div>
+			<div><span class="button pick_team">Pick team</span></div>
 		</script>
 
 		<script id="template_loading" type="x-templ-mustache">

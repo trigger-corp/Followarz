@@ -2,6 +2,7 @@ var Followarz = {
 	Models: {},
 	Views: {},
 	Templates: {},
+	Collections: {},
 
 	init: function () {
 		forge.logging.log("Followarz init");
@@ -18,11 +19,8 @@ var Followarz = {
 Followarz.Router = Backbone.Router.extend({
 	routes: {
 		"": "hello",
-		"loggedin": "loggedIn",
-		"loggedout": "loggedOut",
-		"login": "login",
-		"pickteam": "pickTeam",
-		"pickopponent": "pickOpponent",
+		"pick_team": "pickTeam",
+		"pick_opponent": "pickOpponent",
 		"battle/:opponent": "battle"
 	},
 
@@ -51,34 +49,82 @@ Followarz.Router = Backbone.Router.extend({
 		});
 	},
 
-	loggedOut: function () {
+	pickTeam: function () {
+		forge.logging.log('Fetching followers for our user...');
 
+		new Followarz.Views.Loading();
+
+		$.ajax({
+			url: 'http://followarz.com/followers.php',
+			dataType: 'json',
+
+			success: function (data) {
+				new Followarz.Views.PickTeam(data);
+			},
+
+			error: function (data) {
+				// TODO: Views.Error to display something to the user?
+				forge.logging.log("Failed to load followers.");
+			}
+		});
 	},
 
-	loggedIn: function () {
-		if (data.team) {
-			pickopponent_url = base_url + 'pickopponent.html';
-		} else {
-			pickopponent_url = '';
-		}
+	pickOpponent: function () {
+		forge.logging.log('Fetching opponents for our user...');
 
-		var page = $('#loggedin_template').mustache({
-			pickteam_url: base_url + 'pickteam.html',
-			pickopponent_url: pickopponent_url
+		new Followarz.Views.Loading();
+
+		$.ajax({
+			url: 'http://followarz.com/following.php',
+			dataType: 'json',
+
+			success: function (data) {
+				new Followarz.Views.PickOpponent(data);
+			},
+
+			error: function (data) {
+				// TODO: Views.Error to display something to the user?
+				forge.logging.log("Failed to load opponents.");
+			}
 		});
-
-		$('#pickopponent').live('click', function () {
-			$(this).text("Loading...");
-		});
-
-		$(document.body).html(page);
-	},
-
-	login: function () {
-		forge.tabs.open('http://followarz.com/login.php');
 	}
 });
 
+Followarz.Views.PickTeam = Backbone.View.extend({
+	el: 'body',
+
+	initialize: function () {
+		this.render();
+	},
+
+	render: function () {
+		$(this.el).html('PICK TEAM');
+	}
+});
+
+Followarz.Views.PickOpponent = Backbone.View.extend({
+	el: 'body',
+
+	initialize: function () {
+		this.render();
+	},
+
+	render: function () {
+		$(this.el).html('CHOOSE OPPONENT');
+	}
+});
+
+Followarz.Views.Battle = Backbone.View.extend({
+	el: 'body',
+
+	initialize: function () {
+		this.render();
+	},
+
+	render: function () {
+		$(this.el).html('BATTLE');
+	}
+});
 
 Followarz.Models.UserInfo = Backbone.Model.extend();
 
@@ -86,19 +132,34 @@ Followarz.Views.Welcome = Backbone.View.extend({
 	el: 'body',
 
 	events: {
-		"touchend .pick_team": "pickTeam"
+		"touchend .pick_team": "pickTeam",
+		"touchend .login": "login",
+		"touchend .pick_opponent": "pickOpponent"
+	},
+
+	pickOpponent: function () {
+		forge.logging.log('Pick opponent button clicked.');
+		window.location.hash = 'pick_opponent';
+
+		return false;
 	},
 
 	pickTeam: function () {
 		forge.logging.log('Pick team button clicked.');
-		new Followarz.Views.Loading();
+		window.location.hash = 'pick_team';
 
+		return false;
+	},
+
+	login: function () {
+		forge.logging.log("Login button clicked.");
+
+		forge.tabs.open('http://followarz.com/login.php');
 		return false;
 	},
 
 	initialize: function () {
 		forge.logging.log('Creating welcome view.');
-
 		this.render();
 	},
 
