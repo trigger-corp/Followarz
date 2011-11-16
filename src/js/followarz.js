@@ -132,15 +132,28 @@ Followarz.Views.LargeCardView = Backbone.View.extend({
 Followarz.Collections.Deck = Backbone.Collection.extend({
 	model: Followarz.Models.Card
 });
+
 Followarz.Views.PickTeam = Backbone.View.extend({
 	el: 'body',
 
+	events: {
+
+	},
+
 	initialize: function () {
+		forge.logging.log('Creating view for ' + this.options.followers.length + ' cards.');
+		this._deck = new Followarz.Collections.Deck(this.options.followers);
 		this.render();
 	},
 
 	render: function () {
-		$(this.el).html('PICK TEAM');
+		forge.logging.log('Rendering PickTeam view.');
+
+		var html = this._deck.map(
+				function (c) {
+					return '<p>' + c.get('screen_name') + '</p>';
+				}).join("\n");
+		$(this.el).html(html);
 	}
 });
 
