@@ -101,6 +101,37 @@ Followarz.Router = Backbone.Router.extend({
 	}
 });
 
+Followarz.Models.Card = Backbone.Model.extend({
+	_calculateStats: function () {
+		this.health = Math.floor(Math.random() * 100),
+				this.strength = Math.floor(Math.random() * 100),
+				this.agility = Math.floor(Math.random() * 100),
+
+				this.img = this.get('profile_image_url_https'),
+				this.name = this.get('screen_name')
+	},
+
+	initialize: function () {
+		this._calculateStats();
+	}
+});
+
+Followarz.Views.LargeCardView = Backbone.View.extend({
+	model: Followarz.Models.Card,
+	tagName: 'li',
+
+	initialize: function () {
+		this.render();
+	},
+
+	render: function () {
+		$(this.el).text('name: ' + this.model.name);
+	}
+});
+
+Followarz.Collections.Deck = Backbone.Collection.extend({
+	model: Followarz.Models.Card
+});
 Followarz.Views.PickTeam = Backbone.View.extend({
 	el: 'body',
 
