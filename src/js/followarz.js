@@ -66,6 +66,7 @@ Followarz.Router = Backbone.Router.extend({
 			dataType: 'json',
 
 			success: function (data) {
+				forge.logging.log('Loaded ' + data.length + ' followers.');
 				Followarz.pageTransition(Followarz.Views.PickTeam, {
 					followers: data
 				});
@@ -73,7 +74,7 @@ Followarz.Router = Backbone.Router.extend({
 
 			error: function (data) {
 				// TODO: Views.Error to display something to the user?
-				forge.logging.log("Failed to load followers.");
+				forge.logging.log('Failed to load followers.');
 			}
 		});
 	},
@@ -88,12 +89,13 @@ Followarz.Router = Backbone.Router.extend({
 			dataType: 'json',
 
 			success: function (data) {
+				forge.logging.log('Loaded ' + data.length + ' opponents');
 				Followarz.pageTransition(Followarz.Views.PickOpponent);
 			},
 
 			error: function (data) {
 				// TODO: Views.Error to display something to the user?
-				forge.logging.log("Failed to load opponents.");
+				forge.logging.log('Failed to load opponents.');
 			}
 		});
 	}
