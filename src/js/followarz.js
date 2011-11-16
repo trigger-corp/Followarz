@@ -3,6 +3,14 @@ var Followarz = {
 	Views: {},
 	Templates: {},
 	Collections: {},
+	pageTransition: function (ViewType, options) {
+		options = options || {};
+
+		// important! if we don't call undelegate here then a reference
+		// to any event callbacks set by the previous view will always be kept, nomming memory D:
+		$('body').undelegate();
+		new ViewType(options);
+	},
 
 	init: function () {
 		forge.logging.log("Followarz init");
@@ -36,8 +44,7 @@ Followarz.Router = Backbone.Router.extend({
 			success: function (data) {
 				forge.logging.log('Got response from /hello.php');
 				forge.logging.log(data);
-
-				new Followarz.Views.Welcome({
+				Followarz.pageTransition(Followarz.Views.Welcome, {
 					model: new Followarz.Models.UserInfo(data)
 				});
 			},
@@ -59,7 +66,9 @@ Followarz.Router = Backbone.Router.extend({
 			dataType: 'json',
 
 			success: function (data) {
-				new Followarz.Views.PickTeam(data);
+				Followarz.pageTransition(Followarz.Views.PickTeam, {
+					followers: data
+				});
 			},
 
 			error: function (data) {
@@ -79,7 +88,7 @@ Followarz.Router = Backbone.Router.extend({
 			dataType: 'json',
 
 			success: function (data) {
-				new Followarz.Views.PickOpponent(data);
+				Followarz.pageTransition(Followarz.Views.PickOpponent);
 			},
 
 			error: function (data) {
