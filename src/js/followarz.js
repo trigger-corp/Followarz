@@ -103,12 +103,12 @@ Followarz.Router = Backbone.Router.extend({
 
 Followarz.Models.Card = Backbone.Model.extend({
 	_calculateStats: function () {
-		this.health = Math.floor(Math.random() * 100),
-				this.strength = Math.floor(Math.random() * 100),
-				this.agility = Math.floor(Math.random() * 100),
+		this.health = Math.floor(Math.random() * 100);
+		this.strength = Math.floor(Math.random() * 100);
+		this.agility = Math.floor(Math.random() * 100);
 
-				this.img = this.get('profile_image_url_https'),
-				this.name = this.get('screen_name')
+		this.img = this.get('profile_image_url_https');
+		this.name = this.get('screen_name');
 	},
 
 	initialize: function () {
@@ -149,10 +149,10 @@ Followarz.Views.PickTeam = Backbone.View.extend({
 	render: function () {
 		forge.logging.log('Rendering PickTeam view.');
 
-		var html = this._deck.map(
-				function (c) {
-					return '<p>' + c.get('screen_name') + '</p>';
-				}).join("\n");
+		var html = this._deck.map(function (c) {
+			return '<p>' + c.get('screen_name') + '</p>';
+		}).join("\n");
+
 		$(this.el).html(html);
 	}
 });
@@ -194,15 +194,15 @@ Followarz.Views.Welcome = Backbone.View.extend({
 
 	pickOpponent: function () {
 		forge.logging.log('Pick opponent button clicked.');
-		window.location.hash = 'pick_opponent';
 
+		window.location.hash = 'pick_opponent';
 		return false;
 	},
 
 	pickTeam: function () {
 		forge.logging.log('Pick team button clicked.');
-		window.location.hash = 'pick_team';
 
+		window.location.hash = 'pick_team';
 		return false;
 	},
 
