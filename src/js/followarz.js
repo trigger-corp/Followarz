@@ -193,10 +193,24 @@ Followarz.Views.Welcome = Backbone.View.extend({
 		return false;
 	},
 
+	_loginSuccess: function () {
+		forge.logging.log('Login to followarz.com succeeded.');
+		forge.logging.log(this);
+	},
+
+	_loginError: function () {
+		forge.logging.log('Login to followarz.com succeeded.');
+	},
+
 	login: function () {
 		forge.logging.log("Login button clicked.");
 
-		forge.tabs.open('http://followarz.com/login.php');
+		forge.tabs.open(
+				'http://followarz.com/login.php',
+				this._loginSuccess,
+				this._loginError
+		);
+
 		return false;
 	},
 
