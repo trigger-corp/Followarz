@@ -1,28 +1,33 @@
 <html>
 	<head>
 		<title>FOLLOWARS</title>
-		<script type="text/javascript" src="js/jquery-1.7.js"></script>
-		<script type="text/javascript" src="js/mustache.js"></script>
-		<script type="text/javascript" src="js/jQueryMustache.js"></script>
-		<script type="text/javascript" src="js/underscore-min.js"></script>
-		<script type="text/javascript" src="js/backbone-min.js"></script>
+		<script type="text/javascript" src="js/lib/iscroll.js"></script>
+		<script type="text/javascript" src="js/lib/jquery-1.7.js"></script>
+		<script type="text/javascript" src="js/lib/mustache.js"></script>
+		<script type="text/javascript" src="js/lib/underscore-min.js"></script>
+		<script type="text/javascript" src="js/lib/backbone-min.js"></script>
+
 		<script type="text/javascript" src="js/followarz.js"></script>
+		<script type="text/javascript" src="js/routes.js"></script>
+		<script type="text/javascript" src="js/models.js"></script>
+		<script type="text/javascript" src="js/collections.js"></script>
+		<script type="text/javascript" src="js/views.js"></script>
 		<link rel="stylesheet" href="css/followarz.css">
 
-		<script id="template_loggedout" type="x-templ-mustache">
+		<script id="template_loggedOut" type="x-templ-mustache">
 			<h1>Welcome to Followarz</h1>
 
 			<p><span class="button login">Log in</span></p>
 		</script>
 
-		<script id="template_haveteam" type="x-templ-mustache">
+		<script id="template_haveTeam" type="x-templ-mustache">
 			<h1>Welcome to Followarz</h1>
 
 			<div><span class="button pick_team">Pick team</span></div>
 			<div><span class="button pick_opponent">Choose opponent</span></div>
 		</script>
 
-		<script id="template_noteam" type="x-templ-mustache">
+		<script id="template_noTeam" type="x-templ-mustache">
 			<h1>Welcome to Followarz</h1>
 
 			<div><span class="button pick_team">Pick team</span></div>
@@ -40,57 +45,140 @@
 			</table>
 		</script>
 
+		<script id="template_pickTeam" type="x-templ-mustache">
+			<div id="team">Tap 5 cards to choose your team members.</div>
+			<div id="wrapper">Loading...</div>
+			<div id="save">Save team</div>
+		</script>
+
+		<script id="template_pickTeamScroller" type="x-templ-mustache">
+			<div id="team">Tap 5 cards to choose your team members.</div>
+
+			<div id="iscroll_wrapper">
+				<ul id="followers">
+				</ul>
+			</div>
+
+			<div id="save">Save team</div>
+		</script>
+
+		<script id="template_largeCard" type="x-templ-mustache">
+			<div class="name">@{{ name }}</div>
+			<img src="{{ img }}" width="128" height="128"/>
+			<table>
+				<tr>
+					<td>Health</td>
+
+					<td>{{ health }}</td>
+				</tr>
+				<tr>
+					<td>Strength</td>
+					<td>{{ strength }}</td>
+				</tr>
+				<tr>
+					<td>Agility</td>
+					<td>{{ agility }}</td>
+				</tr>
+			</table>
+			</div>
+		</script>
+
+		<script id="template_pickOpponent" type="x-templ-mustache">
+			<p id="message"></p>
+
+			<div id="wrapper">
+				<div id="scroller">
+					<ul id="opponents"></ul>
+				</div>
+			</div>
+		</script>
+
+		<script id="template_opponent" type="x-templ-mustache">
+			<img src="{{ img }}"> <span class="name">{{ name }}</span>
+		</script>
+
+		<script id="template_battle" type="x-templ-mustache">
+			<div id="opposing_team">
+			</div>
+			<div id="spacer">
+				<div id="message">
+					Choose one of your team to begin the battle.
+				</div>
+			</div>
+			<div id="own_team">
+			</div>
+		</script>
+
+		<script id="template_fight" type="x-templ-mustache">
+			<div class="hcard">
+				{{#opponent}}
+				<div class="half">
+					<table>
+						<tr>
+							<td>Health</td>
+
+							<td>{{ health }}</td>
+						</tr>
+						<tr>
+							<td>Strength</td>
+							<td>{{ strength }}</td>
+						</tr>
+						<tr>
+							<td>Agility</td>
+							<td>{{ agility }}</td>
+						</tr>
+					</table>
+				</div>
+
+				<div class="half">
+					<div class="name">@{{ name }}</div>
+					<img src="{{ img }}" width="72" height="72"/>
+				</div>
+				{{/opponent}}
+			</div>
+
+			<div id="card_spacer"></div>
+			<div id="message"></div>
+
+			<div class="hcard">
+				{{#own}}
+				<div class="half">
+					<div class="name">@{{ name }}</div>
+					<img src="{{ img }}" width="72" height="72"/>
+				</div>
+
+				<div class="half">
+					<table>
+						<tr>
+							<td>Health</td>
+
+							<td>{{ health }}</td>
+						</tr>
+						<tr>
+							<td>Strength</td>
+							<td>{{ strength }}</td>
+						</tr>
+						<tr>
+							<td>Agility</td>
+							<td>{{ agility }}</td>
+						</tr>
+					</table>
+				</div>
+				{{/own}}
+			</div>
+	</script>
+
+		<script id="template_battleTeamCard" type="x-templ-mustache">
+			<img class="choice" src="{{ profile_image_url_https }}">
+		</script>
+
 		<script type="text/javascript">
 			$(function () {
 				forge.logging.log("Page loaded.");
 
 				forge.tools.getURL('/', function (base_url) {
-					
 					forge.logging.log("Got base url for application.");
 					Followarz.init();
-
-//					Followarz.showLoadingPage();
-//
-//					$.ajax({
-//						url: "http://followarz.com/hello.php",
-//						dataType: "json",
-//
-//						success: function (data) {
-//							var pickopponent_url, page;
-//
-//							forge.logging.log("Got response from /hello.php");
-//							forge.logging.log(data);
-//
-//							if (data.status == "loggedin") {
-//								forge.logging.log("Logged in.");
-//
-//								if (data.team) {
-//									pickopponent_url = base_url + 'pickopponent.html';
-//								} else {
-//									pickopponent_url = '';
-//								}
-//
-//								page = $('#loggedin_template').mustache({
-//									pickteam_url: base_url + 'pickteam.html',
-//									pickopponent_url: pickopponent_url
-//								});
-//
-//								$('#pickopponent').live('click', function () {
-//									$(this).text("Loading...");
-//								});
-//							} else {
-//								forge.logging.log("Not logged in.");
-//								page = $("#loggedout_template").html();
-//							}
-//
-//							$(document.body).html(page);
-//						},
-//
-//						error: function (e) {
-//							forge.logging.log("Call to /hello.php failed");
-//							forge.logging.log(e);
-//						}
-//					});
 				});
 			});
 		</script>

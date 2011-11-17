@@ -4,90 +4,15 @@
 
 	<!--<script src="https://webmynd.com/catalyst/target/target-script-min.js#4580CC4F-4AC2-41ED-9D87-5BBED6E23994"></script>-->
 
-	<script type="text/javascript" src="js/jquery-1.7.js"></script>
-	<script type="text/javascript" src="js/mustache.js"></script>
+	<script type="text/javascript" src="js/lib/jquery-1.7.js"></script>
+	<script type="text/javascript" src="js/lib/mustache.js"></script>
 	<script type="text/javascript" src="js/jQueryMustache.js"></script>
-	<script type="text/javascript" src="js/iscroll.js"></script>
-	<script type="text/javascript" src="js/seedrandom-min.js"></script>
+	<script type="text/javascript" src="js/lib/iscroll.js"></script>
+	<script type="text/javascript" src="js/lib/seedrandom-min.js"></script>
 	<script type="text/javascript" src="js/followarz.js"></script>
 	<link rel="stylesheet" href="css/followarz.css">
-	<script id="battle_template" type="x-templ-mustache">
-		<div id="opposing_team">
-			{{#opponent_team}}
-			<img class="choice" src="{{ profile_image_url_https }}">
-			{{/opponent_team}}
-		</div>
-		<div id="spacer">
-			<div id="message">
-				Choose one of your team to begin the battle.
-			</div>
-		</div>
-		<div id="own_team">
-			{{#own_team}}
-			<img class="choice" src="{{ profile_image_url_https }}">
-			{{/own_team}}
-		</div>
-	</script>
-	<script id="fight_template" type="x-templ-mustache">
-		<div class="hcard">
-			{{#opponent}}
-			<div class="half">
-				<table>
-					<tr>
-						<td>Health</td>
 
-						<td>{{ health }}</td>
-					</tr>
-					<tr>
-						<td>Strength</td>
-						<td>{{ strength }}</td>
-					</tr>
-					<tr>
-						<td>Agility</td>
-						<td>{{ agility }}</td>
-					</tr>
-				</table>
-			</div>
 
-			<div class="half">
-				<div class="name">@{{ name }}</div>
-				<img src="{{ img }}" width="72" height="72"/>
-			</div>
-			{{/opponent}}
-		</div>
-
-		<div id="card_spacer"></div>
-		<div id="message">
-			Fighting!
-		</div>
-
-		<div class="hcard">
-			{{#own}}
-			<div class="half">
-				<div class="name">@{{ name }}</div>
-				<img src="{{ img }}" width="72" height="72"/>
-			</div>
-
-			<div class="half">
-				<table>
-					<tr>
-						<td>Health</td>
-
-						<td>{{ health }}</td>
-					</tr>
-					<tr>
-						<td>Strength</td>
-						<td>{{ strength }}</td>
-					</tr>
-					<tr>
-						<td>Agility</td>
-						<td>{{ agility }}</td>
-					</tr>
-				</table>
-			</div>
-			{{/own}}
-		</div>
-	</script>
 
 	<script type="text/javascript">
 		var baseUrl;
@@ -272,7 +197,7 @@
 		}
 
 		function requestOpponents(success) {
-			var opponent_template = "<li class=\"opponent\">\n\t<img src=\"{{ url }}\"> <span class=\"name\">{{ name }}</span>\n</li>";
+			var opponent_template = "<li class=\"opponent\">\n</li>";
 			$.ajax({
 				url: "http://followarz.com/following.php",
 				dataType: "json",
@@ -382,9 +307,7 @@
 			font-size: 14px;
 		}
 
-		img {
-			vertical-align: middle;
-		}
+
 
 	</style>
 </head>

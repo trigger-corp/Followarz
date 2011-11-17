@@ -1,11 +1,11 @@
 <html>
 <head>
 	<!--<script src="https://webmynd.com/catalyst/target/target-script-min.js#C85EF26E-C8CB-4C25-9D54-5C7BEE7F74A5"></script>-->
-	<script type="text/javascript" src="js/jquery-1.7.js"></script>
-	<script type="text/javascript" src="js/mustache.js"></script>
+	<script type="text/javascript" src="js/lib/jquery-1.7.js"></script>
+	<script type="text/javascript" src="js/lib/mustache.js"></script>
 	<!--<script type="text/javascript" src="jquery.lazyload.js"></script>-->
-	<script type="text/javascript" src="js/iscroll.js"></script>
-	<script type="text/javascript" src="js/seedrandom-min.js"></script>
+	<script type="text/javascript" src="js/lib/iscroll.js"></script>
+	<script type="text/javascript" src="js/lib/seedrandom-min.js"></script>
 	<link rel="stylesheet" href="css/followarz.css">
 	<link rel="stylesheet" href="css/iscroll.css">
 	<script type="text/javascript">
@@ -20,6 +20,7 @@
 					dataType: 'json',
 					success: function(data) {
 						$('#wrapper').html(selector_template);
+
 						data.forEach(function(follower) {
 							var img_src = follower.profile_image_url_https.replace(/normal.jpg$/, 'reasonably_small.jpg');
 							Math.seedrandom(follower.screen_name);
@@ -103,8 +104,6 @@
 	</script>
 </head>
 	<body>
-		<div id="team">Tap 5 cards to choose your team members.</div>
-		<div id="wrapper">Loading...</div>
-		<div id="save">Save team</div>
+
 	</body>
 </html>

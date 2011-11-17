@@ -41,20 +41,23 @@ body {
 	margin: 10px auto;
 }
 
-#spacer {
+/*
+ * Battle pageview
+ */
+.battle #spacer {
 	height: 370px;
 }
 
-#own_team, #opposing_team {
+.battle #own_team, #opposing_team {
 	margin: 0 auto;
 }
 
-#card_spacer {
+.battle #card_spacer {
 	height: 120px;
 	clear: both;
 }
 
-#message {
+.battle #message {
 	position: absolute;
 	top: 170px;
 	font-weight: bold;
@@ -66,21 +69,21 @@ body {
 	height: 50px;
 }
 
-.half {
+.battle .half {
 	width: 50%;
 	float: left;
 }
 
-.card {
+.battle .card {
     text-align: center;
 }
 
-.opponent img {
+.battle .opponent img {
 	width: 50px;
 	height: 50px;
 }
 
-#save {
+.battle #save {
 	margin: 20px auto;
 	width: 150px;
 	font-size: 1.2em;
@@ -91,26 +94,81 @@ body {
 	border-radius: 10px;
 }
 
-.card .name {
+.battle .card .name {
     font-size: 1.15em;
 	font-weight: bold;
 	padding: 10px;
 }
 
-table {
+.battle table {
 	width: 150px;
 	padding: 10px;
 	margin: 0 auto;
 }
 
 
-td {
+.battle td {
 	font-weight: bold;
 }
 
-td + td {
+.battle td + td {
 	font-weight: normal;
 	width: 30px;
 	text-align: right;
 }
 
+#iscroll_wrapper {
+    position:relative;
+    z-index:1;
+    width: 500; /* your desired width, auto and 100% are fine */
+    height: auto; /* element height */
+    overflow: hidden; /* hidden|auto|scroll */
+}
+
+/*
+ * PickOpponent style
+ */
+.pick_opponent ul, li {
+	padding: 0;
+	margin: 0;
+	border: 0;
+}
+
+.pick_opponent #wrapper {
+	position: absolute;
+	z-index: 1;
+	top: 50px;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	overflow: auto;
+}
+
+.pick_opponent #scroller {
+	position: absolute;
+	z-index: 1;
+	/*	-webkit-touch-callout:none;*/
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	width: 100%;
+	padding: 0;
+}
+
+.pick_opponent #scroller ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	width: 100%;
+	text-align: left;
+}
+
+.pick_opponent #scroller li {
+	padding: 0 0;
+	height: 50px;
+	line-height: 50px;
+	font-size: 14px;
+}
+
+
+.pick_opponent img {
+	vertical-align: middle;
+}
