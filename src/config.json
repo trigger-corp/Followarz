@@ -9,13 +9,13 @@
 	"trigger": "document_end",
 	"background_files": [],
 	"icons": {
-      "48": "Logo48.png",
-      "36": "Logo36.png",
-	  "72": "Logo72.png"
-    },
+		"48": "img/Logo48.png",
+		"36": "img/Logo36.png",
+		"72": "img/Logo72.png"
+	},
 	"activations": [
 	],
 	"logging": {
-			"level": "INFO"
+		"level": "INFO"
 	}
 }

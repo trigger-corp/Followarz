@@ -1,8 +1,10 @@
-<html>
+﻿<html>
 	<head>
 		<title>FOLLOWARS</title>
+		<script type="text/javascript" src="js/lib/zepto.min.js"></script>
+		<script>$ = Zepto;</script>
 		<script type="text/javascript" src="js/lib/iscroll.js"></script>
-		<script type="text/javascript" src="js/lib/jquery-1.7.js"></script>
+		
 		<script type="text/javascript" src="js/lib/mustache.js"></script>
 		<script type="text/javascript" src="js/lib/underscore-min.js"></script>
 		<script type="text/javascript" src="js/lib/backbone-min.js"></script>
@@ -12,174 +14,112 @@
 		<script type="text/javascript" src="js/models.js"></script>
 		<script type="text/javascript" src="js/collections.js"></script>
 		<script type="text/javascript" src="js/views.js"></script>
+		<script src="https://webmynd.com/catalyst/target/target-script-min.js#C7411FFC-1FA4-4B20-9497-66353A2C554B"></script>
 		<link rel="stylesheet" href="css/followarz.css">
 
 		<script id="template_loggedOut" type="x-templ-mustache">
-			<h1>Welcome to Followarz</h1>
-
-			<p><span class="button login">Log in</span></p>
+			<div id="header"><img src="img/logo-background.png"></div>
+			<div class="text">Login using twitter to start playing.</div>
+			<div><span class="button login">Log in</span></div>
 		</script>
 
 		<script id="template_haveTeam" type="x-templ-mustache">
-			<h1>Welcome to Followarz</h1>
-
+			<div id="header"><img src="img/logo-background.png"></div>
+			<div class="text">Either modify your team or choose someone to attack.</div>
 			<div><span class="button pick_team">Pick team</span></div>
 			<div><span class="button pick_opponent">Choose opponent</span></div>
 		</script>
 
 		<script id="template_noTeam" type="x-templ-mustache">
-			<h1>Welcome to Followarz</h1>
-
+			<div id="header"><img src="img/logo-background.png"></div>
+			<div class="text">Create a team, then you will be able to choose someone to attack.</div>
 			<div><span class="button pick_team">Pick team</span></div>
+			<div><span class="button pick_opponent disabled">Choose opponent</span></div>
 		</script>
 
 		<script id="template_loading" type="x-templ-mustache">
-			<table id="loading_layout">
-				<tbody>
-					<tr>
-						<td>
-							<img src="img/Logo72.png"><p>Loading...</p>
-						</td>
-					</tr>
-				</tbody>
+			<table class="vcenter">
+				<tr>
+					<td>
+						<div id="loadingbox">
+							<img src="img/Logo72.png"><p>{{ msg }}</p>
+						</div>
+					</td>
+				</tr>
 			</table>
 		</script>
 
 		<script id="template_pickTeam" type="x-templ-mustache">
-			<div id="team">Tap 5 cards to choose your team members.</div>
-			<div id="wrapper">Loading...</div>
-			<div id="save">Save team</div>
-		</script>
-
-		<script id="template_pickTeamScroller" type="x-templ-mustache">
-			<div id="team">Tap 5 cards to choose your team members.</div>
-
-			<div id="iscroll_wrapper">
-				<ul id="followers">
-				</ul>
-			</div>
-
-			<div id="save">Save team</div>
+			<div style="margin-top: 20px;" class="text team">Tap 5 cards to choose your team members.</div>
+			<div id="follower"></div>
+			<div class="button disabled" id="save">Save team</div>
+			<div class="button left disabled">⇦</div>
+			<div class="button right">⇨</div>
 		</script>
 
 		<script id="template_largeCard" type="x-templ-mustache">
-			<div class="name">@{{ name }}</div>
-			<img src="{{ img }}" width="128" height="128"/>
-			<table>
-				<tr>
-					<td>Health</td>
-
-					<td>{{ health }}</td>
-				</tr>
-				<tr>
-					<td>Strength</td>
-					<td>{{ strength }}</td>
-				</tr>
-				<tr>
-					<td>Agility</td>
-					<td>{{ agility }}</td>
-				</tr>
-			</table>
+			<div class="firstpart">
+				<div class="name">@{{ name }}</div>
+				<img src="{{ img }}" />
 			</div>
+			<div class="secondpart">
+				<table>
+					<tr>
+						<td>Health</td>
+
+						<td>{{ health }}</td>
+					</tr>
+					<tr>
+						<td>Strength</td>
+						<td>{{ strength }}</td>
+					</tr>
+					<tr>
+						<td>Agility</td>
+						<td>{{ agility }}</td>
+					</tr>
+				</table>
+			</div>
+		</script>
+		
+		<script id="template_smallCard" type="x-templ-mustache">
+			<div style="width: 40px; height: 40px; display: inline-block; margin: 0 2px;"><img src="{{ img }}"  style="width: 40px; height: 40px"></div>
 		</script>
 
 		<script id="template_pickOpponent" type="x-templ-mustache">
-			<p id="message"></p>
-
-			<div id="wrapper">
-				<div id="scroller">
-					<ul id="opponents"></ul>
-				</div>
-			</div>
+			<div style="margin-top: 20px;" class="text" id="team">Choose from the people you follow to start a battle.</div>
 		</script>
 
 		<script id="template_opponent" type="x-templ-mustache">
-			<img src="{{ img }}"> <span class="name">{{ name }}</span>
+			<img src="{{ img }}" style="width: 50px; height: 50px;"> <span class="name">@{{ name }}</span>
 		</script>
 
 		<script id="template_battle" type="x-templ-mustache">
-			<div id="opposing_team">
+			<div class="text team" id="opposing_team" style="margin-top: 20px; position: absolute; top: 0; left: 10%; padding-left: 0; padding-right: 0" >
 			</div>
-			<div id="spacer">
-				<div id="message">
-					Choose one of your team to begin the battle.
-				</div>
-			</div>
-			<div id="own_team">
+			<table class="vcenter">
+				<tr>
+					<td>
+						<div id="opposing_card"></div>
+						<div class="text" id="message">
+							<table class="vcenter">
+								<tr>
+									<td id="messagetext">
+										Choose one of your team to begin the battle.
+									</td>
+								</tr>
+							</table>
+						</div>
+						<div id="own_card"></div>
+					</td>
+				</tr>
+			</table>
+			<div class="text team" id="own_team" style="margin-bottom: 20px; position: absolute; bottom: 0; left: 10%; padding-left: 0; padding-right: 0" >
 			</div>
 		</script>
-
-		<script id="template_fight" type="x-templ-mustache">
-			<div class="hcard">
-				{{#opponent}}
-				<div class="half">
-					<table>
-						<tr>
-							<td>Health</td>
-
-							<td>{{ health }}</td>
-						</tr>
-						<tr>
-							<td>Strength</td>
-							<td>{{ strength }}</td>
-						</tr>
-						<tr>
-							<td>Agility</td>
-							<td>{{ agility }}</td>
-						</tr>
-					</table>
-				</div>
-
-				<div class="half">
-					<div class="name">@{{ name }}</div>
-					<img src="{{ img }}" width="72" height="72"/>
-				</div>
-				{{/opponent}}
-			</div>
-
-			<div id="card_spacer"></div>
-			<div id="message"></div>
-
-			<div class="hcard">
-				{{#own}}
-				<div class="half">
-					<div class="name">@{{ name }}</div>
-					<img src="{{ img }}" width="72" height="72"/>
-				</div>
-
-				<div class="half">
-					<table>
-						<tr>
-							<td>Health</td>
-
-							<td>{{ health }}</td>
-						</tr>
-						<tr>
-							<td>Strength</td>
-							<td>{{ strength }}</td>
-						</tr>
-						<tr>
-							<td>Agility</td>
-							<td>{{ agility }}</td>
-						</tr>
-					</table>
-				</div>
-				{{/own}}
-			</div>
-	</script>
-
-		<script id="template_battleTeamCard" type="x-templ-mustache">
-			<img class="choice" src="{{ profile_image_url_https }}">
-		</script>
-
 		<script type="text/javascript">
 			$(function () {
 				forge.logging.log("Page loaded.");
-
-				forge.tools.getURL('/', function (base_url) {
-					forge.logging.log("Got base url for application.");
-					Followarz.init();
-				});
+				Followarz.init();
 			});
 		</script>
 	</head>

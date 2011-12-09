@@ -4,171 +4,172 @@
 
 body {
 	text-align: center;
-	background-color: white;
-	/*color: white;*/
-	/*background-color: #49708A;*/
+	margin: 0;
+	padding: 0;
+	background: url(../img/content_bg.png);
 }
 
-#loading_layout {
+.vcenter {
 	height: 100%;
 	text-align: center;
+	width: 100%;
+}
+.vcenter  td {
+	vertical-align: middle;
+}
+#loadingbox {
+	display: inline-block;
+	width: 120px;
+	height: 140px;
+	padding-top: 15px;
+	background-color: #49708A;
+	border: 9px solid #456A83;
+	border-radius: 20px;
+	color: white;
+}
+#loadingbox img {
+	opacity: 1;
+	-webkit-animation-name: pulse; 
+	-webkit-animation-duration: 5s;
+	-webkit-animation-iteration-count: infinite;
 }
 
-#team {
-	background-color: #dfd;
-	border: 3px dashed #373;
-	border-radius: 10px;
-	height: 50px;
-	padding: 10px;
-	margin-bottom: 10px;
-	font-size: 1.1em;
+@-webkit-keyframes pulse {
+	from {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.1;
+	}
+	to {
+		opacity: 1;
+	}
+}
+#header {
+	background-color: #49708A;
+	border-bottom: 9px solid #456A83;
+	font-size: 2em;
+	padding: 30px 0;
+	margin-bottom: 20px;
 }
 
-#team img {
-	margin: 0 2px;
-	width: 50px;
-	height: 50px;
-	display: none;
+#header img {
+	width: 80%;
+	margin: 0 auto;
 }
 
 .button {
-	padding: 10px;
-	font-size: 1.2em;
-	border: 2px solid #696;
-	border-radius: 10px;
-	background-color: #AEA;
 	display: inline-block;
-	margin: 10px auto;
+	background-color: #49708A;
+	border: 4px solid #456A83;
+	border-radius: 10px;
+	color: white;
+	padding: 15px;
+	font-size: 1.2em;
+	margin: 20px auto 0 auto;
 }
 
-/*
- * Battle pageview
- */
-.battle #spacer {
-	height: 370px;
+.disabled {
+	color: #ddd;
+	opacity: 0.4;
 }
 
-.battle #own_team, #opposing_team {
+.text {
+	background-color: #EBF7F8;
+	border-radius: 3px;
+	color: #49708A;
 	margin: 0 auto;
-}
-
-.battle #card_spacer {
-	height: 120px;
-	clear: both;
-}
-
-.battle #message {
-	position: absolute;
-	top: 170px;
-	font-weight: bold;
+	width: 80%;
 	padding: 10px;
-	border: 2px solid black;
-	margin: 0 auto;
-	left: 10%;
-	right: 10%;
-	height: 50px;
 }
 
-.battle .half {
+.card {
+	display: inline-block;
+	background-color: #49708A;
+	border: 4px solid #456A83;
+	border-radius: 10px;
+	color: white;
+	padding: 15px;
+	font-size: 1.2em;
+	margin: 20px auto 0 auto;
+	text-align: center;
+}
+.card img {
+	padding: 15px 0;
+}
+
+#follower .card {
+	width: 170px;
+	height: 230px;
+}
+#follower img {
+	width: 128px;
+	height: 128px;
+}
+
+.card table {
+	margin: 0 auto;
+	width: 100px;
+	color: white;
+}
+
+.team {
+	height: 40px;
+}
+
+.opponent {
+	display: inline-block;
+	width: 80%;
+	background-color: #49708A;
+	border: 4px solid #456A83;
+	border-radius: 10px;
+	color: white;
+	padding: 5px;
+	font-size: 1.2em;
+	margin: 20px auto 0 auto;
+	text-align: left;
+}
+.opponent img {
+	vertical-align: middle;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+#own_card .card, #opposing_card .card {
+	height: 75px;
+	font-size: 0.9em;
+	width: 200px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding-top: 10px;
+}
+#own_card table, #opposing_card table {
+	padding-top: 15px;
+	font-size: 0.8em;
+	width: 80%;
+	margin: 0 auto;
+}
+.firstpart img {
+	width: 60px;
+	height: 60px;
+	padding: 5px 0;
+}
+#own_card .firstpart, #own_card .secondpart, #opposing_card .firstpart, #opposing_card .secondpart {
 	width: 50%;
+}
+#own_card .firstpart {
+	float: left;
+}
+#own_card .secondpart {
+	float: right;
+}
+#opposing_card .firstpart {
+	float: right;
+}
+#opposing_card .secondpart {
 	float: left;
 }
 
-.battle .card {
-    text-align: center;
-}
-
-.battle .opponent img {
-	width: 50px;
+#message {
 	height: 50px;
-}
-
-.battle #save {
-	margin: 20px auto;
-	width: 150px;
-	font-size: 1.2em;
-	background-color: #dfd;
-	border: 3px solid #373;
-	padding: 20px;
-	display: none;
-	border-radius: 10px;
-}
-
-.battle .card .name {
-    font-size: 1.15em;
-	font-weight: bold;
-	padding: 10px;
-}
-
-.battle table {
-	width: 150px;
-	padding: 10px;
-	margin: 0 auto;
-}
-
-
-.battle td {
-	font-weight: bold;
-}
-
-.battle td + td {
-	font-weight: normal;
-	width: 30px;
-	text-align: right;
-}
-
-#iscroll_wrapper {
-    position:relative;
-    z-index:1;
-    width: 500; /* your desired width, auto and 100% are fine */
-    height: auto; /* element height */
-    overflow: hidden; /* hidden|auto|scroll */
-}
-
-/*
- * PickOpponent style
- */
-.pick_opponent ul, li {
-	padding: 0;
-	margin: 0;
-	border: 0;
-}
-
-.pick_opponent #wrapper {
-	position: absolute;
-	z-index: 1;
-	top: 50px;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-	overflow: auto;
-}
-
-.pick_opponent #scroller {
-	position: absolute;
-	z-index: 1;
-	/*	-webkit-touch-callout:none;*/
-	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-	width: 100%;
-	padding: 0;
-}
-
-.pick_opponent #scroller ul {
-	list-style: none;
-	padding: 0;
-	margin: 0;
-	width: 100%;
-	text-align: left;
-}
-
-.pick_opponent #scroller li {
-	padding: 0 0;
-	height: 50px;
-	line-height: 50px;
-	font-size: 14px;
-}
-
-
-.pick_opponent img {
-	vertical-align: middle;
 }

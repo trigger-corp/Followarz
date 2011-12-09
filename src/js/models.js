@@ -4,7 +4,7 @@ Followarz.Models.Card = Backbone.Model.extend({
 		this.strength = Math.floor(Math.random() * 100);
 		this.agility = Math.floor(Math.random() * 100);
 
-		this.img = this.get('profile_image_url_https');
+		this.img = this.get('profile_image_url_https').replace(/_normal/, '_reasonably_small');
 		this.name = this.get('screen_name');
 	},
 
