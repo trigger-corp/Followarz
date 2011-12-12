@@ -7,9 +7,9 @@ Followarz.Views.Page = Backbone.View.extend({
 	show: function () {
 		forge.logging.log("Showing page");
 		var el = this.el;
-		if ($('.page').length) {
+		if ($('.page, .loading').length) {
 			// TODO: reuse pages.
-			$('.page').not(el).remove();
+			$('.page, .loading').not(el).remove();
 			$(el).appendTo('body').hide();
 			$(el).show();
 		} else {
@@ -20,6 +20,7 @@ Followarz.Views.Page = Backbone.View.extend({
 });
 
 Followarz.Views.Loading = Followarz.Views.Page.extend({
+	className: "loading",
 	render: function () {
 		forge.logging.log('Rendering loading view.');
 
@@ -117,7 +118,12 @@ Followarz.Views.PickTeam = Followarz.Views.Page.extend({
 		"tap .right": "goRight",
 		"swipeLeft": "goRight",
 		"swipeRight": "goLeft",
-		"tap #save": "saveTeam"
+		"tap #save": "saveTeam",
+		"tap .header_small": "goHome"
+	},
+	
+	goHome: function () {
+		Followarz.router.navigate("", true);
 	},
 	
 	goLeft: function () {
@@ -241,6 +247,12 @@ Followarz.Views.Opponent = Backbone.View.extend({
 });
 
 Followarz.Views.PickOpponent = Followarz.Views.Page.extend({
+	events: {
+		"tap .header_small": "goHome"
+	},
+	goHome: function () {
+		Followarz.router.navigate("", true);
+	},
 	initialize: function () {
 		forge.logging.log('Creating PickOpponent view.');
 
@@ -264,6 +276,14 @@ Followarz.Views.PickOpponent = Followarz.Views.Page.extend({
 });
 
 Followarz.Views.Battle = Followarz.Views.Page.extend({
+	events: {
+		"tap .header_small": "goHome"
+	},
+	
+	goHome: function () {
+		Followarz.router.navigate("", true);
+	},
+	
 	render: function () {
 		var page = Followarz.Templates.battle;
 		
