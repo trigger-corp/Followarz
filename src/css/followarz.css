@@ -5,6 +5,7 @@ body {
 	background: url(../img/content_bg.png);
 	font-size: 14px;
 	font-family: Verdana;
+	min-height: 100%;
 }
 
 .page {
@@ -121,6 +122,23 @@ body {
 	height: 128px;
 }
 
+.large .text {
+	font-size: 1.2em;
+}
+
+.large .card {
+	font-size: 1.4em;
+}
+
+.large #follower .card {
+	width: 270px;
+	height: 360px;
+}
+.large #follower img {
+	width: 228px;
+	height: 228px;
+}
+
 .card table {
 	margin: 0 auto;
 	width: 100px;
@@ -129,6 +147,10 @@ body {
 
 .team {
 	height: 40px;
+}
+
+.large .team {
+	height : 80px;
 }
 
 .opponent {
@@ -150,24 +172,38 @@ body {
 }
 
 #own_card .card, #opposing_card .card {
-	height: 75px;
-	font-size: 0.9em;
+	height: 60px;
+	font-size: 0.8em;
 	width: 200px;
 	margin-top: 10px;
 	margin-bottom: 10px;
-	padding-top: 10px;
+	padding-top: 8px;
 }
 #own_card table, #opposing_card table {
-	padding-top: 15px;
 	font-size: 0.8em;
 	width: 80%;
-	margin: 0 auto;
+	margin: 12px auto;
 }
 .firstpart img {
-	width: 60px;
-	height: 60px;
+	width: 50px;
+	height: 50px;
 	padding: 5px 0;
 }
+
+.large #own_card .card, .large #opposing_card .card {
+	height: 120px;
+	font-size: 1.6em;
+	width: 400px;
+}
+.large #own_card table, .large #opposing_card table {
+	font-size: 0.9em;
+}
+.large .firstpart img {
+	width: 90px;
+	height: 90px;
+	padding: 10px 0;
+}
+
 #own_card .firstpart, #own_card .secondpart, #opposing_card .firstpart, #opposing_card .secondpart {
 	width: 50%;
 }
@@ -186,4 +222,12 @@ body {
 
 #message {
 	height: 50px;
+}
+
+#opposing_card, #own_card {
+	height: 110px;
+}
+
+.large #opposing_card, .large #own_card {
+	height: 185px;
 }

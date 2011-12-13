@@ -204,6 +204,7 @@ Followarz.Views.PickTeam = Followarz.Views.Page.extend({
 				self.renderTeam();
 			}
 		});
+		
 		if (this.atCard > 0) {
 			$('.left').removeClass('disabled');
 		} else {
@@ -224,6 +225,13 @@ Followarz.Views.PickTeam = Followarz.Views.Page.extend({
 		forge.logging.log('Rendering PickTeam view.');
 
 		var page = Mustache.to_html(Followarz.Templates.pickTeam);
+		
+		var self = this;
+		setTimeout(function () {
+			if ($(self.el).height() > 600) {
+				$(self.el).addClass('large');
+			}
+		});
 		
 		$(this.el).html(page);
 		
@@ -289,6 +297,13 @@ Followarz.Views.Battle = Followarz.Views.Page.extend({
 		
 		$(this.el).html(page);
 		
+		var self = this;
+		setTimeout(function () {
+			if ($(self.el).height() > 600) {
+				$(self.el).addClass('large');
+			}
+		});
+		
 		var own_team = $('#own_team', this.el);
 		
 		var model = this.model;
@@ -343,9 +358,9 @@ Followarz.Views.Battle = Followarz.Views.Page.extend({
 							}
 						} else {
 							if (winCount > 2) {
-								$('#messagetext').html("Battle over! You win!<br>Tap here to tell your opponent.");
+								$('#messagetext').html("Battle over! You win!<br>Tap to tweet your victory.");
 							} else {
-								$('#messagetext').html("Battle over! You lose!<br>Tap here to tell your opponent.");
+								$('#messagetext').html("Battle over! You lose!<br>Tap to tweet your loss.");
 							}
 							$('#message').one('tap', function () {
 								forge.tabs.open("https://twitter.com/share?url=" + encodeURIComponent("http://followarz.com/") +
