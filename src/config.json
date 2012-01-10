@@ -3,7 +3,7 @@
 	"platform_version": "v1.2",
 	"name": "Followarz",
 	"author": "tim@webmynd.com",
-	"version": "0.1",
+	"version": "1.0",
 	"description": "Followarz",
 	"permissions": [],
 	"trigger": "document_end",
@@ -11,7 +11,9 @@
 	"icons": {
 		"48": "img/Logo48.png",
 		"36": "img/Logo36.png",
-		"72": "img/Logo72.png"
+		"57": "img/Logo57.png",
+		"72": "img/Logo72.png",
+		"114": "img/Logo114.png"
 	},
 	"activations": [
 	],
