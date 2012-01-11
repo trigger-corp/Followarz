@@ -36,6 +36,15 @@ body {
 	-webkit-animation-duration: 5s;
 	-webkit-animation-iteration-count: infinite;
 }
+#errorbox {
+	display: inline-block;
+	width: 60%;
+	padding-top: 15px;
+	background-color: #49708A;
+	border: 9px solid #456A83;
+	border-radius: 20px;
+	color: white;
+}
 
 @-webkit-keyframes pulse {
 	from {

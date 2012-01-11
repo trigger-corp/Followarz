@@ -29,6 +29,23 @@ Followarz.Views.Loading = Followarz.Views.Page.extend({
 	}
 });
 
+Followarz.Views.Error = Followarz.Views.Page.extend({
+	className: "loading",
+	render: function () {
+		forge.logging.log('Rendering error view.');
+
+		$(this.el).html(Mustache.to_html(Followarz.Templates.error, {}));
+		return this;
+	},
+	events: {
+		"tap": "retry"
+	},
+	retry: function () {
+		Followarz.router.navigate('error', true);
+		Followarz.router.navigate(this.options.route, true);
+	}
+});
+
 Followarz.Views.Welcome = Followarz.Views.Page.extend({
 	events: {
 		"tap .pick_team": "pickTeam",

@@ -25,6 +25,10 @@ Followarz.Router = Backbone.Router.extend({
 			},
 
 			error: function (e) {
+				if (e.subtype == "NO_INTERNET_CONNECTION") {
+					forge.notification.create("Error loading", "No Internet connection available.");
+				}
+				(new Followarz.Views.Error({route: ""})).show();
 				forge.logging.log('Call to /hello.php failed');
 				forge.logging.log(e);
 			}
@@ -49,8 +53,11 @@ Followarz.Router = Backbone.Router.extend({
 				})).show();
 			},
 
-			error: function (data) {
-				// TODO: Views.Error to display something to the user?
+			error: function (e) {
+				if (e.subtype == "NO_INTERNET_CONNECTION") {
+					forge.notification.create("Error loading", "No Internet connection available.");
+				}
+				(new Followarz.Views.Error({route: "pick_team"})).show();
 				forge.logging.log('Failed to load followers.');
 			}
 		});
@@ -73,8 +80,11 @@ Followarz.Router = Backbone.Router.extend({
 				})).show();
 			},
 
-			error: function (data) {
-				// TODO: Views.Error to display something to the user?
+			error: function (e) {
+				if (e.subtype == "NO_INTERNET_CONNECTION") {
+					forge.notification.create("Error loading", "No Internet connection available.");
+				}
+				(new Followarz.Views.Error({route: "pick_opponent"})).show();
 				forge.logging.log('Failed to load opponents.');
 			}
 		});
@@ -118,6 +128,10 @@ Followarz.Router = Backbone.Router.extend({
 			},
 
 			error: function (e) {
+				if (e.subtype == "NO_INTERNET_CONNECTION") {
+					forge.notification.create("Error loading", "No Internet connection available.");
+				}
+				(new Followarz.Views.Error({route: "battle/"+opponentName})).show();
 				forge.logging.log("Failed to get our own team");
 				forge.logging.log(e);
 			}
@@ -136,6 +150,10 @@ Followarz.Router = Backbone.Router.extend({
 			},
 
 			error: function (e) {
+				if (e.subtype == "NO_INTERNET_CONNECTION") {
+					forge.notification.create("Error loading", "No Internet connection available.");
+				}
+				(new Followarz.Views.Error({route: "battle/"+opponentName})).show();
 				forge.logging.log("Failed to get team for opposition");
 				forge.logging.log(e);
 			}
